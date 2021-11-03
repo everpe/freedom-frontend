@@ -1,0 +1,87 @@
+<div class="container mt-4">
+  
+    <div class="title">
+      <div>
+        <h1><b> Corrales app </b></h1>
+        <h2>Seleccione un corrar para visualizar los animales de este y el gráfico general de corrales.</h2>
+      </div>
+      <div class="image">
+        <img  class="img" src="../assets/image.svg" alt="">
+      </div>
+    </div>
+    <div class="row text-center">
+      <mat-form-field appearance="fill">
+        <mat-label>Seleccione un corral</mat-label>
+        <mat-select disableRipple [(ngModel)]="selectedCorral">
+          <mat-option [value]="corral.id" *ngFor="let corral of corrals" (click)="changeCorral()">
+            {{ corral.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="box-buttons">
+      <button mat-raised-button (click)="crearCorral()" color="primary">Crear corral</button>
+    </div>
+
+</div>
+
+<div class="container mt-4 ">
+  <div class="box-tabla">
+  <table mat-table [dataSource]="dataSourceAnimals" class="mat-elevation-z8">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" --> 
+  
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+  
+    <!-- Age Column -->
+    <ng-container matColumnDef="age">
+      <th mat-header-cell *matHeaderCellDef> Age </th>
+      <td mat-cell *matCellDef="let element"> {{element.age}} </td>
+    </ng-container>
+  
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="dangerousness">
+      <th mat-header-cell *matHeaderCellDef> Dangerousness </th>
+      <td mat-cell *matCellDef="let element" 
+        [ngClass]="{'text-success': element.dangerousness === 'high', 
+                    'text-warning' : element.dangerousness === 'medium', 
+                    'text-danger' : element.dangerousness === 'low' }">
+        {{element.dangerousness}} 
+      </td>
+      <!-- <td mat-cell *matCellDef="let element" class="text-warning" *ngIf="element.dangerousness === 'medium'"> {{element.dangerousness}} </td>
+      <td mat-cell *matCellDef="let element" class="text-danger" *ngIf="element.dangerousness === 'low'"> {{element.dangerousness}} </td> -->
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumnsAnimals"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumnsAnimals;"></tr>
+  </table>
+  <mat-paginator
+    #paginator
+    [length]="dataSource?.data?.length"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+  >
+  </mat-paginator>
+</div>
+<br>
+  <br>
+  <button *ngIf="selectedCorral!==0" mat-raised-button (click)="crearAnimal()" color="primary">Crear animal</button>
+  <!-- Grafico de barras libreria incompatible con la version de angular 12 -->
+  <div class="box-barras" *ngIf="selectedCorral!==0">
+    <div class="chart-wrapper">
+      <canvas baseChart 
+      [datasets]="barChartData"
+      [labels]="barChartLabels"
+      [options]="barChartOptions"
+      [plugins]="barChartPlugins"
+      [legend]="barChartLegend"
+      [chartType]="barChartType">
+    </canvas>
+    <br><br>
+  </div>
+</div>
+</div>

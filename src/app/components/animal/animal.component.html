@@ -1,0 +1,70 @@
+<form [formGroup]="form">
+  <div class="container">
+      <h2>
+        <b>
+          Crear animal para el corral: {{data.corralSelected.name}}
+        </b>
+      </h2>
+      <!-- Campo Nombre -->
+        <div class="col nombre">
+            <mat-form-field appearance="fill" class="formControl">
+            <mat-label> Nombre corral </mat-label>
+            <input
+                placeholder="Digite el nombre del corral"
+                formControlName="name"
+                matInput
+                type="text"
+                required
+                [maxlength]="100"
+            />
+            <mat-icon matSuffix>
+                contacts
+            </mat-icon>
+            <mat-error *ngIf="form.controls.name.invalid">
+                Este campo es requerido.
+            </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col">
+            <mat-form-field appearance="fill" class="formControl">
+                <mat-label for="peligrosidad">
+                  Peligrosidad del animal
+                </mat-label>
+                <mat-select formControlName="dangerousness" required>
+                  <mat-option
+                    *ngFor="let pelig of listPeligrosidades"
+                    [value]="pelig.id"
+                    >{{ pelig.nombre | uppercase }}</mat-option
+                  >
+                </mat-select>
+                <mat-icon matSuffix>
+                  contacts
+                </mat-icon>
+                <mat-error *ngIf="form.controls.dangerousness.invalid">
+                  El valor de este campo no es válido.
+                </mat-error>
+              </mat-form-field>
+        </div>
+        <!-- Edad -->
+        <div class="col">
+            <mat-form-field appearance="fill" class="formControl">
+            <mat-label> Edad * </mat-label>
+            <input
+                placeholder="Edad del animal"
+                formControlName="age"
+                matInput
+                type="number"
+                min="0"
+                max="200"
+            />
+            <mat-icon matSuffix>apps</mat-icon>
+            <mat-error *ngIf="form.controls.age.invalid">
+                El valor de este campo no es válido.
+            </mat-error>
+            </mat-form-field>
+        </div>
+        <button mat-stroked-button color="primary" [mat-dialog-close]="data.animal" cdkFocusInitial>Crear</button>
+    </div>
+  </form>
+    
+  
