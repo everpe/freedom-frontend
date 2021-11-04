@@ -30,3 +30,7 @@ table {
   display: flex;
   justify-content: space-around;
 }
+.botones-animal{
+  display: flex;
+  justify-content: space-around;
+}

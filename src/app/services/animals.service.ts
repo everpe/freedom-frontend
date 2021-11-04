@@ -19,5 +19,8 @@ export class AnimalsService
     return this.http.post(`${environment.apiUrl}animals`, animal);
   }
 
+  getPromedioEdades(idCorral: number){
+    return this.http.get<any>(`${environment.apiUrl}corrals/${idCorral}/avg`);
+  }
 
 }

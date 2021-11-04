@@ -88,7 +88,6 @@ export class AppComponent implements OnInit
     {
       if(corral.animals){
         this.dataSourceAnimals = corral.animals;
-        console.log(this.dataSourceAnimals );
         this.dataSource = new MatTableDataSource(this.dataSourceAnimals ? this.dataSourceAnimals  : []);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -98,7 +97,6 @@ export class AppComponent implements OnInit
 
   changeCorral() {
     this.loadAnimals();
-    console.log(this.selectedCorral);
   }
 
   crearCorral() {
@@ -126,18 +124,15 @@ export class AppComponent implements OnInit
     const dialogRef = this.dialog.open(AnimalComponent, {
       width: '450px',
       data: {
-        corralSelected: this.corrals.find(el=>el.id===this.selectedCorral),animal: {a:2}
+        corralSelected: this.corrals.find(el=>el.id===this.selectedCorral),animal: {}
       }
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
       if(result){
-          // const animal= result.value as Animal;
           this.animalsService.addAnimal(result.value as Animal).subscribe(
             (res) => {
               this.loadData();
-              // this.changeCorral();
-              // this.loadAnimals();
               this.openSnackBar("Se ha creado correctamente el animal","OK");
 },
             error=>{console.log(error)}
@@ -146,5 +141,18 @@ export class AppComponent implements OnInit
         this.openSnackBar("No se ha podido crear,debe completar el formulario","OK");
       }
     });
+  }
+
+  getPromedioEdades(){
+    const id=this.corrals?.find(el=>el?.id===this.selectedCorral)?.id;
+    if(id){
+      this.animalsService.getPromedioEdades(id).subscribe(res=>{
+        if(res){
+          this.openSnackBar("El promedio de edades para el corral seleccionado es de:  "+res.avg,"OK");
+        }else{
+          console.log(res);
+        }
+      });
+    }
   }
 }

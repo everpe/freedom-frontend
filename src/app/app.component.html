@@ -2,7 +2,7 @@
   
     <div class="title">
       <div>
-        <h1><b> Corrales app </b></h1>
+        <h1><b> Corrales de Mi Granja App </b></h1>
         <h2>Seleccione un corrar para visualizar los animales de este y el gráfico general de corrales.</h2>
       </div>
       <div class="image">
@@ -69,7 +69,10 @@
 </div>
 <br>
   <br>
-  <button *ngIf="selectedCorral!==0" mat-raised-button (click)="crearAnimal()" color="primary">Crear animal</button>
+  <div class="botones-animal" *ngIf="selectedCorral!==0">
+    <button  mat-raised-button (click)="crearAnimal()" color="primary">Crear animal</button>
+    <button  mat-raised-button (click)="getPromedioEdades()" color="primary">Promedio de edades</button>
+  </div>
   <!-- Grafico de barras libreria incompatible con la version de angular 12 -->
   <div class="box-barras" *ngIf="selectedCorral!==0">
     <div class="chart-wrapper">
@@ -84,4 +87,5 @@
     <br><br>
   </div>
 </div>
+<span> <small>Futuras venrsiones se tendrá reporte de animales en PDF!</small> </span>
 </div>
